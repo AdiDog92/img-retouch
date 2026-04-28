@@ -14,6 +14,7 @@ const config = defineConfig({
     tanstackRouter({
       target: 'react',
       autoCodeSplitting: true,
+      routesDirectory: './src/app/routes',
       generatedRouteTree: './src/app/providers/router/routeTree.gen.ts',
     }),
     viteReact(),
