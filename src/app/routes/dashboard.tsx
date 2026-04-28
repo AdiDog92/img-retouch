@@ -1,4 +1,4 @@
-import { AppLayout } from '#/widgets/app-layout/ui/AppLayout';
+import { AppLayout } from '#/widgets/app-layout/ui/app-layout';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/dashboard')({

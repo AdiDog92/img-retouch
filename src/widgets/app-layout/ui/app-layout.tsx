@@ -8,6 +8,7 @@ export const AppLayout = () => {
 		<AppProvider>
 			<AppSidebar />
 			<SidebarInset>
+				{/* TODO: Add header widget */}
 				<header className="flex h-14 items-center border-b px-4">
 					<SidebarTrigger />
 				</header>
