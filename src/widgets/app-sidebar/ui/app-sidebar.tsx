@@ -2,10 +2,9 @@
 
 import * as React from 'react';
 
-import { NavMain } from '#/widgets/app-sidebar/ui/nav-main';
-import { NavProjects } from '#/widgets/app-sidebar/ui/nav-projects';
-import { NavSecondary } from '#/widgets/app-sidebar/ui/nav-secondary';
-import { NavUser } from '#/widgets/app-sidebar/ui/nav-user';
+import { NavMain } from '@/widgets/app-sidebar/ui/nav-main';
+import { NavProjects } from '@/widgets/app-sidebar/ui/nav-projects';
+import { NavUser } from '@/widgets/app-sidebar/ui/nav-user';
 import {
 	Sidebar,
 	SidebarContent,
@@ -14,7 +13,7 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-} from '#/shared/ui/shadcn/sidebar';
+} from '@/shared/ui/shadcn/sidebar';
 import {
 	TerminalSquareIcon,
 	BotIcon,

@@ -6,7 +6,7 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-} from '#/shared/ui/shadcn/sidebar';
+} from '@/shared/ui/shadcn/sidebar';
 
 export function NavSecondary({
 	items,

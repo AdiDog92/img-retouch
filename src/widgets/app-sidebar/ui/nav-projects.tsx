@@ -6,7 +6,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '#/shared/ui/shadcn/dropdown-menu';
+} from '@/shared/ui/shadcn/dropdown-menu';
 import {
 	SidebarGroup,
 	SidebarGroupLabel,
@@ -15,7 +15,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	useSidebar,
-} from '#/shared/ui/shadcn/sidebar';
+} from '@/shared/ui/shadcn/sidebar';
 import { MoreHorizontalIcon, FolderIcon, ShareIcon, Trash2Icon } from 'lucide-react';
 
 export function NavProjects({

@@ -1,8 +1,8 @@
-import { cn } from '#/shared/lib/utils';
-import { Button } from '#/shared/ui/shadcn/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/shared/ui/shadcn/card';
-import { Field, FieldGroup, FieldLabel } from '#/shared/ui/shadcn/field';
-import { Input } from '#/shared/ui/shadcn/input';
+import { cn } from '@/shared/lib/utils';
+import { Button } from '@/shared/ui/shadcn/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/shadcn/card';
+import { Field, FieldGroup, FieldLabel } from '@/shared/ui/shadcn/field';
+import { Input } from '@/shared/ui/shadcn/input';
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
