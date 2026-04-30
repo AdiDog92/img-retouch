@@ -29,24 +29,24 @@ import {
 
 const data = {
 	user: {
-		name: 'shadcn',
-		email: 'm@example.com',
+		name: 'Админ',
+		email: 'admin@example.com',
 		avatar: '/avatars/shadcn.jpg',
 	},
 	navMain: [
 		{
-			title: 'Playground',
+			title: 'Сервисы',
 			url: '#',
 			icon: <TerminalSquareIcon />,
 			isActive: true,
 			items: [
 				{
-					title: 'History',
-					url: '#',
+					title: 'Пользователи',
+					url: '/dashboard/users',
 				},
 				{
-					title: 'Starred',
-					url: '#',
+					title: 'Задачи',
+					url: '/dashboard/tasks',
 				},
 				{
 					title: 'Settings',
