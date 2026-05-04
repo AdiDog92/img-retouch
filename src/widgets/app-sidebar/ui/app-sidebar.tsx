@@ -26,6 +26,7 @@ import {
 	MapIcon,
 	TerminalIcon,
 } from 'lucide-react';
+import { useAuth } from '@/app/providers/auth-provider/use-auth';
 
 const data = {
 	user: {
@@ -35,7 +36,7 @@ const data = {
 	},
 	navMain: [
 		{
-			title: 'Сервисы',
+			title: 'Ретуш изображений',
 			url: '#',
 			icon: <TerminalSquareIcon />,
 			isActive: true,
@@ -49,108 +50,110 @@ const data = {
 					url: '/dashboard/tasks',
 				},
 				{
-					title: 'Settings',
+					title: 'Параметры',
 					url: '#',
 				},
 			],
 		},
-		{
-			title: 'Models',
-			url: '#',
-			icon: <BotIcon />,
-			items: [
-				{
-					title: 'Genesis',
-					url: '#',
-				},
-				{
-					title: 'Explorer',
-					url: '#',
-				},
-				{
-					title: 'Quantum',
-					url: '#',
-				},
-			],
-		},
-		{
-			title: 'Documentation',
-			url: '#',
-			icon: <BookOpenIcon />,
-			items: [
-				{
-					title: 'Introduction',
-					url: '#',
-				},
-				{
-					title: 'Get Started',
-					url: '#',
-				},
-				{
-					title: 'Tutorials',
-					url: '#',
-				},
-				{
-					title: 'Changelog',
-					url: '#',
-				},
-			],
-		},
-		{
-			title: 'Settings',
-			url: '#',
-			icon: <Settings2Icon />,
-			items: [
-				{
-					title: 'General',
-					url: '#',
-				},
-				{
-					title: 'Team',
-					url: '#',
-				},
-				{
-					title: 'Billing',
-					url: '#',
-				},
-				{
-					title: 'Limits',
-					url: '#',
-				},
-			],
-		},
+		// {
+		// 	title: 'Models',
+		// 	url: '#',
+		// 	icon: <BotIcon />,
+		// 	items: [
+		// 		{
+		// 			title: 'Genesis',
+		// 			url: '#',
+		// 		},
+		// 		{
+		// 			title: 'Explorer',
+		// 			url: '#',
+		// 		},
+		// 		{
+		// 			title: 'Quantum',
+		// 			url: '#',
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	title: 'Documentation',
+		// 	url: '#',
+		// 	icon: <BookOpenIcon />,
+		// 	items: [
+		// 		{
+		// 			title: 'Introduction',
+		// 			url: '#',
+		// 		},
+		// 		{
+		// 			title: 'Get Started',
+		// 			url: '#',
+		// 		},
+		// 		{
+		// 			title: 'Tutorials',
+		// 			url: '#',
+		// 		},
+		// 		{
+		// 			title: 'Changelog',
+		// 			url: '#',
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	title: 'Settings',
+		// 	url: '#',
+		// 	icon: <Settings2Icon />,
+		// 	items: [
+		// 		{
+		// 			title: 'General',
+		// 			url: '#',
+		// 		},
+		// 		{
+		// 			title: 'Team',
+		// 			url: '#',
+		// 		},
+		// 		{
+		// 			title: 'Billing',
+		// 			url: '#',
+		// 		},
+		// 		{
+		// 			title: 'Limits',
+		// 			url: '#',
+		// 		},
+		// 	],
+		// },
 	],
-	navSecondary: [
-		{
-			title: 'Support',
-			url: '#',
-			icon: <LifeBuoyIcon />,
-		},
-		{
-			title: 'Feedback',
-			url: '#',
-			icon: <SendIcon />,
-		},
-	],
-	projects: [
-		{
-			name: 'Design Engineering',
-			url: '#',
-			icon: <FrameIcon />,
-		},
-		{
-			name: 'Sales & Marketing',
-			url: '#',
-			icon: <PieChartIcon />,
-		},
-		{
-			name: 'Travel',
-			url: '#',
-			icon: <MapIcon />,
-		},
-	],
+	// navSecondary: [
+	// 	{
+	// 		title: 'Support',
+	// 		url: '#',
+	// 		icon: <LifeBuoyIcon />,
+	// 	},
+	// 	{
+	// 		title: 'Feedback',
+	// 		url: '#',
+	// 		icon: <SendIcon />,
+	// 	},
+	// ],
+	// projects: [
+	// 	{
+	// 		name: 'Design Engineering',
+	// 		url: '#',
+	// 		icon: <FrameIcon />,
+	// 	},
+	// 	{
+	// 		name: 'Sales & Marketing',
+	// 		url: '#',
+	// 		icon: <PieChartIcon />,
+	// 	},
+	// 	{
+	// 		name: 'Travel',
+	// 		url: '#',
+	// 		icon: <MapIcon />,
+	// 	},
+	// ],
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	const { user, logout } = useAuth();
+
 	return (
 		<Sidebar variant="inset" {...props}>
 			<SidebarHeader>
@@ -169,11 +172,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			</SidebarHeader>
 			<SidebarContent>
 				<NavMain items={data.navMain} />
-				<NavProjects projects={data.projects} />
+				{/* <NavProjects projects={data.projects} /> */}
 				{/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
 			</SidebarContent>
 			<SidebarFooter>
-				<NavUser user={data.user} />
+				<NavUser user={user} logout={logout} />
 			</SidebarFooter>
 		</Sidebar>
 	);

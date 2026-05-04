@@ -28,7 +28,7 @@ export function NavMain({
 }) {
 	return (
 		<SidebarGroup>
-			<SidebarGroupLabel>Платформа</SidebarGroupLabel>
+			<SidebarGroupLabel>Сервисы</SidebarGroupLabel>
 			<SidebarMenu>
 				{items.map((item) => (
 					<Collapsible key={item.title} defaultOpen={item.isActive} render={<SidebarMenuItem />}>
