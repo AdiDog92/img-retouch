@@ -10,6 +10,7 @@ import {
 } from '@tanstack/react-table';
 import type { ColumnDef, SortingState } from '@tanstack/react-table';
 import { useState } from 'react';
+import { useDebounce } from '../hooks/use-debounce';
 
 type DataTableProps<T> = {
 	data: T[];
@@ -21,13 +22,14 @@ type DataTableProps<T> = {
 export const DataTable = <T,>({ data, columns, isLoading, error }: DataTableProps<T>) => {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [globalFilter, setGlobalFilter] = useState('');
+	const debouncedGlobalFilter = useDebounce(globalFilter, 300);
 
 	const table = useReactTable({
 		data,
 		columns,
 		state: {
 			sorting,
-			globalFilter,
+			globalFilter: debouncedGlobalFilter,
 		},
 		onSortingChange: setSorting,
 		onGlobalFilterChange: setGlobalFilter,
