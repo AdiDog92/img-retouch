@@ -1,3 +1,9 @@
+import { DataTable } from '@/shared/ui/data-table';
+
 export const TasksPage = () => {
-	return <div>Задачи</div>;
+	return (
+		<div>
+			<DataTable />
+		</div>
+	);
 };
