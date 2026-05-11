@@ -15,6 +15,8 @@ export const UsersPage = () => {
 	return (
 		<div>
 			<UsersToolbar search={search} setSearch={setSearch} />
+			{/* TODO: edit in place */}
+			{/* TODO: use edit user */}
 			<DataTable data={users} isLoading={isLoading} error={error} columns={columns} />
 		</div>
 	);
