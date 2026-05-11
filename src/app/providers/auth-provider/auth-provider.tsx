@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			} catch {
 				if (isMounted) {
 					setUser(null);
+
 					toast.error('Не удалось проверить сессию');
 				}
 			} finally {
