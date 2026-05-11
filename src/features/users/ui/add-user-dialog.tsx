@@ -87,7 +87,7 @@ export const AddUserDialog = () => {
 							handleCreateUser();
 						}}
 					>
-						<FieldGroup>
+						<FieldGroup className="mb-4">
 							<Field>
 								<Label htmlFor="username">Логин</Label>
 								<Input id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />

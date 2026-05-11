@@ -40,14 +40,6 @@ export const DataTable = <T,>({ data, columns, isLoading, error }: DataTableProp
 
 	return (
 		<div className="flex flex-col">
-			<div className="mb-4">
-				<input
-					value={globalFilter}
-					onChange={(event) => setGlobalFilter(event.target.value.trim())}
-					placeholder="Search all columns..."
-					className="h-9 w-full rounded-md border bg-background px-3 py-1 text-sm shadow-xs"
-				/>
-			</div>
 			<Table containerClassName="max-h-[calc(100svh-12rem)] overflow-y-auto rounded-md border">
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (
@@ -84,7 +76,7 @@ export const DataTable = <T,>({ data, columns, isLoading, error }: DataTableProp
 					) : (
 						<TableRow>
 							<TableCell colSpan={columns.length} className="h-16 text-center">
-								No results.
+								Список пуст.
 							</TableCell>
 						</TableRow>
 					)}

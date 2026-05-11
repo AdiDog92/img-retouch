@@ -34,16 +34,16 @@ export const columns = [
 		header: '№',
 		cell: (info) => info.getValue(),
 	}),
+	columnHelper.accessor('fullName', {
+		header: 'ФИО',
+		cell: (info) => info.getValue(),
+	}),
 	columnHelper.accessor('username', {
-		header: 'Пользователь',
+		header: 'Логин',
 		cell: (info) => info.getValue(),
 	}),
 	columnHelper.accessor('email', {
 		header: 'Email',
-		cell: (info) => info.getValue(),
-	}),
-	columnHelper.accessor('fullName', {
-		header: 'ФИО',
 		cell: (info) => info.getValue(),
 	}),
 	columnHelper.accessor('role', {

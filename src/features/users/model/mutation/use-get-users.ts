@@ -4,8 +4,8 @@ import { getUsers } from '../../api/get-users';
 
 export const usersQueryKey = ['users'] as const;
 
-export const useGetUsers = () =>
+export const useGetUsers = (query: string) =>
 	useQuery<User[], Error>({
-		queryKey: usersQueryKey,
-		queryFn: getUsers,
+		queryKey: [...usersQueryKey, { query }] as const,
+		queryFn: () => getUsers(query),
 	});
