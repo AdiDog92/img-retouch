@@ -6,3 +6,14 @@ export type User = {
 	role: string;
 	isActive: boolean;
 };
+
+export type CreateUserPayload = Omit<User, 'id'> & {
+	password: string;
+};
+
+export enum UserRole {
+	ADMIN = 'ADMIN',
+	MANAGER = 'MANAGER',
+	DESIGNER = 'DESIGNER',
+	FREELANCER = 'FREELANCER',
+}
