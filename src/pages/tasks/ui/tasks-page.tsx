@@ -13,12 +13,30 @@ export const TasksPage = () => {
 	const [status, setStatus] = useState<OrderStatus | null>(null);
 	const [employeeId, setEmployeeId] = useState<string | null>(null);
 	const debouncedOrderNumber = useDebounce(orderNumber, 300);
+	const debouncedDateFrom = useDebounce(dateFrom, 300);
+	const debouncedDateTo = useDebounce(dateTo, 300);
+	const debouncedStatus = useDebounce(status, 300);
+	const debouncedEmployeeId = useDebounce(employeeId, 300);
+
+	const handleResetFilters = () => {
+		setOrderNumber('');
+		setDateFrom('');
+		setDateTo('');
+		setStatus(null);
+		setEmployeeId(null);
+	};
 
 	const {
 		data: orders = [],
 		isLoading,
 		error,
-	} = useGetOrders(Number(debouncedOrderNumber), dateFrom, dateTo, status ?? undefined, employeeId ?? undefined);
+	} = useGetOrders(
+		Number(debouncedOrderNumber),
+		debouncedDateFrom,
+		debouncedDateTo,
+		debouncedStatus as OrderStatus | undefined,
+		debouncedEmployeeId as string | undefined,
+	);
 
 	return (
 		<div>
@@ -33,6 +51,7 @@ export const TasksPage = () => {
 				setStatus={setStatus}
 				employeeId={employeeId}
 				setEmployeeId={setEmployeeId}
+				handleResetFilters={handleResetFilters}
 			/>
 			<DataTable data={orders} isLoading={isLoading} error={error} columns={columns} />
 		</div>
