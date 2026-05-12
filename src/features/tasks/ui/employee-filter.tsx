@@ -12,7 +12,7 @@ export const EmployeeFilter = ({
 
 	return (
 		<div className="w-[150px]">
-			<Select value={employeeId ?? ''} onValueChange={(value) => setEmployeeId(value)}>
+			<Select value={employeeId ?? ''} onValueChange={(value) => setEmployeeId(value ?? '')}>
 				<SelectTrigger className="w-full">
 					<SelectValue placeholder="Укажите сотрудника">
 						{(id: string | null) => (id ? (users.find((u) => u.id === id)?.fullName ?? id) : 'Укажите сотрудника')}
