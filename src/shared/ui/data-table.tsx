@@ -1,7 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './shadcn/table';
 
 import {
-	createColumnHelper,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
@@ -11,6 +10,9 @@ import {
 import type { ColumnDef, SortingState } from '@tanstack/react-table';
 import { useState } from 'react';
 import { useDebounce } from '../hooks/use-debounce';
+import { Skeleton } from './shadcn/skeleton';
+
+const SKELETON_ROW_COUNT = 8;
 
 type DataTableProps<T> = {
 	data: T[];
@@ -65,7 +67,23 @@ export const DataTable = <T,>({ data, columns, isLoading, error }: DataTableProp
 					))}
 				</TableHeader>
 				<TableBody>
-					{table.getRowModel().rows.length ? (
+					{error ? (
+						<TableRow>
+							<TableCell colSpan={columns.length} className="h-24 text-center text-destructive">
+								{error.message || 'Не удалось загрузить данные.'}
+							</TableCell>
+						</TableRow>
+					) : isLoading ? (
+						Array.from({ length: SKELETON_ROW_COUNT }).map((_, rowIndex) => (
+							<TableRow key={`skeleton-${rowIndex}`}>
+								{columns.map((_, colIndex) => (
+									<TableCell key={`skeleton-${rowIndex}-${colIndex}`}>
+										<Skeleton className="h-5 w-full max-w-48" />
+									</TableCell>
+								))}
+							</TableRow>
+						))
+					) : table.getRowModel().rows.length ? (
 						table.getRowModel().rows.map((row) => (
 							<TableRow key={row.id}>
 								{row.getVisibleCells().map((cell) => (
