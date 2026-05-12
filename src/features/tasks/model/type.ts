@@ -11,6 +11,14 @@ export interface Order {
 	status: OrderStatus;
 }
 
+export type CreateOrderPayload = {
+	clientNumber: number;
+	orderNumber: number;
+	description: string;
+	designerId: string;
+	file: File;
+};
+
 export enum OrderStatus {
 	PENDING = 'PENDING',
 	IN_PROGRESS = 'IN_PROGRESS',
