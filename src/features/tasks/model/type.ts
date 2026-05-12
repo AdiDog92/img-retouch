@@ -12,10 +12,19 @@ export interface Order {
 }
 
 export enum OrderStatus {
-	PENDING = 'В ожидании',
-	IN_PROGRESS = 'В обработке',
-	REVIEW = 'На проверке',
-	REVISION = 'На доработке',
-	COMPLETED = 'Завершено',
-	ARCHIVE = 'Архив, отменен и прочие',
+	PENDING = 'PENDING',
+	IN_PROGRESS = 'IN_PROGRESS',
+	REVIEW = 'REVIEW',
+	REVISION = 'REVISION',
+	COMPLETED = 'COMPLETED',
+	ARCHIVE = 'ARCHIVE',
 }
+
+export const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {
+	[OrderStatus.PENDING]: 'В ожидании',
+	[OrderStatus.IN_PROGRESS]: 'В обработке',
+	[OrderStatus.REVIEW]: 'На проверке',
+	[OrderStatus.REVISION]: 'На доработке',
+	[OrderStatus.COMPLETED]: 'Завершено',
+	[OrderStatus.ARCHIVE]: 'Отменен',
+};
