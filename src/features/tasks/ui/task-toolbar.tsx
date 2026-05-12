@@ -4,6 +4,7 @@ import { StatusFilter } from './status-filter';
 import { EmployeeFilter } from './employee-filter';
 import { OrderSearch } from './order-search';
 import type { OrderStatus } from '../model/type';
+import { Button } from '@/shared/ui/shadcn/button';
 
 export const TaskToolbar = ({
 	orderNumber,
@@ -16,6 +17,7 @@ export const TaskToolbar = ({
 	setStatus,
 	employeeId,
 	setEmployeeId,
+	handleResetFilters,
 }: {
 	orderNumber: string;
 	setOrderNumber: (orderNumber: string) => void;
@@ -27,6 +29,7 @@ export const TaskToolbar = ({
 	setStatus: (status: OrderStatus | null) => void;
 	employeeId: string | null;
 	setEmployeeId: (employeeId: string) => void;
+	handleResetFilters: () => void;
 }) => {
 	return (
 		<div className="flex items-center gap-2 mb-4">
@@ -34,7 +37,7 @@ export const TaskToolbar = ({
 			<DateRange dateFrom={dateFrom} setDateFrom={setDateFrom} dateTo={dateTo} setDateTo={setDateTo} />
 			<StatusFilter status={status} setStatus={setStatus} />
 			<EmployeeFilter employeeId={employeeId} setEmployeeId={setEmployeeId} />
-			{/*  TODO: Reset filters button */}
+			<Button onClick={handleResetFilters}>Сбросить фильтры</Button>
 			{/* TODO: Add add order button */}
 			<AddOrder className="ml-auto" />
 		</div>
