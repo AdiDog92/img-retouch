@@ -4,7 +4,6 @@ import { StatusFilter } from './status-filter';
 import { EmployeeFilter } from './employee-filter';
 import { OrderSearch } from './order-search';
 import type { OrderStatus } from '../model/type';
-import type { User } from '@/features/users/model/type';
 
 export const TaskToolbar = ({
 	orderNumber,
@@ -32,7 +31,6 @@ export const TaskToolbar = ({
 	return (
 		<div className="flex items-center gap-2 mb-4">
 			<OrderSearch orderNumber={orderNumber} setOrderNumber={setOrderNumber} />
-			{/* TODO: Add date range picker */}
 			<DateRange dateFrom={dateFrom} setDateFrom={setDateFrom} dateTo={dateTo} setDateTo={setDateTo} />
 			<StatusFilter status={status} setStatus={setStatus} />
 			<EmployeeFilter employeeId={employeeId} setEmployeeId={setEmployeeId} />
