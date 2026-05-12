@@ -41,25 +41,17 @@ function resolveOrderStatus(raw: unknown): OrderStatus | undefined {
 	const values = Object.values(OrderStatus) as string[];
 	if (values.includes(s)) return s as OrderStatus;
 	if (values.includes(upper)) return upper as OrderStatus;
-	return (
-		apiCodeToOrderStatus[s] ??
-		apiCodeToOrderStatus[upper] ??
-		legacyLabelToOrderStatus[s]
-	);
+	return apiCodeToOrderStatus[s] ?? apiCodeToOrderStatus[upper] ?? legacyLabelToOrderStatus[s];
 }
 
 export const columns = [
-	columnHelper.accessor('id', {
+	columnHelper.accessor('orderNumber', {
 		header: '№',
 		cell: (info) => info.getValue(),
 	}),
 	columnHelper.accessor('createDate', {
 		header: 'Дата создания',
 		cell: (info) => formatDate(info.getValue()),
-	}),
-	columnHelper.accessor('orderNumber', {
-		header: 'Номер заказа',
-		cell: (info) => info.getValue(),
 	}),
 	columnHelper.accessor('description', {
 		header: 'Описание',
