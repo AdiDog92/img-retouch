@@ -4,6 +4,10 @@ import { formatDate } from '@/shared/lib/format-date';
 import { Badge } from '@/shared/ui/shadcn/badge';
 import { cn } from '@/shared/lib/utils';
 import { useGetUsers } from '@/features/users/model/mutation/use-get-users';
+import { useDeleteOrder } from '../model/mutation/use-delete-order';
+import { Button } from '@/shared/ui/shadcn/button';
+import { TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 const columnHelper = createColumnHelper<Order>();
 
@@ -83,6 +87,30 @@ export const columns = [
 				<Badge variant="outline" className={cn('border-transparent', badgeClass)}>
 					{label}
 				</Badge>
+			);
+		},
+	}),
+	columnHelper.accessor('id', {
+		header: 'Действия',
+		cell: (info) => {
+			const { mutate: deleteOrder, isPending } = useDeleteOrder();
+			const orderId = info.getValue();
+
+			const handleDeleteOrder = () => {
+				deleteOrder(orderId, {
+					onSuccess: () => {
+						toast.success('Заказ удален');
+					},
+					onError: (error) => {
+						toast.error(error.message);
+					},
+				});
+			};
+
+			return (
+				<Button variant="destructive" size="icon" onClick={() => handleDeleteOrder()} disabled={isPending}>
+					<TrashIcon className="size-4" />
+				</Button>
 			);
 		},
 	}),
