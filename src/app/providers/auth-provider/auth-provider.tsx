@@ -24,15 +24,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		const init = async () => {
 			try {
 				const currentUser = await me();
-				if (isMounted) {
-					setUser(currentUser);
-				}
-			} catch {
-				if (isMounted) {
-					setUser(null);
+				if (!isMounted) return;
 
-					toast.error('Не удалось проверить сессию');
+				if (currentUser === null && hadToken) {
+					localStorage.removeItem('token');
+					setUser(null);
+					await queryClient.clear();
+					void navigate({ to: '/', replace: true });
+					toast.error('Сессия истекла или недействительна');
+					return;
 				}
+
+				setUser(currentUser);
+			} catch {
+				if (!isMounted) return;
+
+				setUser(null);
+				localStorage.removeItem('token');
+				await queryClient.clear();
+				void navigate({ to: '/', replace: true });
+				toast.error('Не удалось проверить сессию');
 			} finally {
 				if (isMounted) {
 					setIsInitializing(false);
@@ -45,13 +56,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		return () => {
 			isMounted = false;
 		};
-	}, []);
+	}, [navigate, queryClient]);
 
 	const handleLogin = async (payload: LoginPayload) => {
 		const token = await login(payload);
 		localStorage.setItem('token', token);
 
 		const currentUser = await me();
+		if (!currentUser) {
+			localStorage.removeItem('token');
+			throw new Error('Не удалось получить профиль');
+		}
 		setUser(currentUser);
 
 		await queryClient.invalidateQueries();
