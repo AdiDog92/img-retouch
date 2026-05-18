@@ -8,6 +8,8 @@ import { useDeleteOrder } from '../model/mutation/use-delete-order';
 import { Button } from '@/shared/ui/shadcn/button';
 import { TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
+import { OrderDetailDrawer } from './order-detail-drawer';
+import { useState } from 'react';
 
 const columnHelper = createColumnHelper<Order>();
 
@@ -29,7 +31,6 @@ const apiCodeToOrderStatus: Record<string, OrderStatus> = {
 	ARCHIVE: OrderStatus.ARCHIVE,
 };
 
-/** Ответы API со старыми русскими строками */
 const legacyLabelToOrderStatus: Record<string, OrderStatus> = {
 	'В ожидании': OrderStatus.PENDING,
 	'В обработке': OrderStatus.IN_PROGRESS,
@@ -49,13 +50,33 @@ function resolveOrderStatus(raw: unknown): OrderStatus | undefined {
 }
 
 export const columns = [
-	columnHelper.accessor('orderNumber', {
-		header: '№',
-		cell: (info) => info.getValue(),
-	}),
 	columnHelper.accessor('createDate', {
 		header: 'Дата создания',
 		cell: (info) => formatDate(info.getValue()),
+	}),
+	columnHelper.accessor('orderNumber', {
+		header: '№ заказа',
+		cell: (info) => {
+			const [isOpen, setIsOpen] = useState(false);
+			const orderId = info.row.original.id;
+
+			const handleOpenChange = (open: boolean) => {
+				setIsOpen(open);
+			};
+
+			return (
+				<OrderDetailDrawer
+					orderId={orderId}
+					orderNumber={String(info.getValue())}
+					isOpen={isOpen}
+					handleOpenChange={handleOpenChange}
+				/>
+			);
+		},
+	}),
+	columnHelper.accessor('clientNumber', {
+		header: '№ клиента',
+		cell: (info) => info.getValue(),
 	}),
 	columnHelper.accessor('description', {
 		header: 'Описание',
