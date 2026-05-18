@@ -1,10 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { TasksPage } from '@/pages/tasks/ui/tasks-page';
+import { Outlet, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/dashboard/tasks')({
-	component: RouteComponent,
+	component: () => <Outlet />,
 });
-
-function RouteComponent() {
-	return <TasksPage />;
-}

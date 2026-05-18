@@ -14,6 +14,8 @@ import { Route as IndexRouteImport } from './../../routes/index'
 import { Route as DashboardIndexRouteImport } from './../../routes/dashboard.index'
 import { Route as DashboardUsersRouteImport } from './../../routes/dashboard.users'
 import { Route as DashboardTasksRouteImport } from './../../routes/dashboard.tasks'
+import { Route as DashboardTasksIndexRouteImport } from './../../routes/dashboard.tasks.index'
+import { Route as DashboardTasksOrderIdRouteImport } from './../../routes/dashboard.tasks.$orderId'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -40,27 +42,42 @@ const DashboardTasksRoute = DashboardTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardTasksIndexRoute = DashboardTasksIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardTasksRoute,
+} as any)
+const DashboardTasksOrderIdRoute = DashboardTasksOrderIdRouteImport.update({
+  id: '/$orderId',
+  path: '/$orderId',
+  getParentRoute: () => DashboardTasksRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
-  '/dashboard/tasks': typeof DashboardTasksRoute
+  '/dashboard/tasks': typeof DashboardTasksRouteWithChildren
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/tasks/$orderId': typeof DashboardTasksOrderIdRoute
+  '/dashboard/tasks/': typeof DashboardTasksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard/tasks': typeof DashboardTasksRoute
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/tasks/$orderId': typeof DashboardTasksOrderIdRoute
+  '/dashboard/tasks': typeof DashboardTasksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
-  '/dashboard/tasks': typeof DashboardTasksRoute
+  '/dashboard/tasks': typeof DashboardTasksRouteWithChildren
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/tasks/$orderId': typeof DashboardTasksOrderIdRoute
+  '/dashboard/tasks/': typeof DashboardTasksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -70,8 +87,15 @@ export interface FileRouteTypes {
     | '/dashboard/tasks'
     | '/dashboard/users'
     | '/dashboard/'
+    | '/dashboard/tasks/$orderId'
+    | '/dashboard/tasks/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard/tasks' | '/dashboard/users' | '/dashboard'
+  to:
+    | '/'
+    | '/dashboard/users'
+    | '/dashboard'
+    | '/dashboard/tasks/$orderId'
+    | '/dashboard/tasks'
   id:
     | '__root__'
     | '/'
@@ -79,6 +103,8 @@ export interface FileRouteTypes {
     | '/dashboard/tasks'
     | '/dashboard/users'
     | '/dashboard/'
+    | '/dashboard/tasks/$orderId'
+    | '/dashboard/tasks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -123,17 +149,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTasksRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/tasks/': {
+      id: '/dashboard/tasks/'
+      path: '/'
+      fullPath: '/dashboard/tasks/'
+      preLoaderRoute: typeof DashboardTasksIndexRouteImport
+      parentRoute: typeof DashboardTasksRoute
+    }
+    '/dashboard/tasks/$orderId': {
+      id: '/dashboard/tasks/$orderId'
+      path: '/$orderId'
+      fullPath: '/dashboard/tasks/$orderId'
+      preLoaderRoute: typeof DashboardTasksOrderIdRouteImport
+      parentRoute: typeof DashboardTasksRoute
+    }
   }
 }
 
+interface DashboardTasksRouteChildren {
+  DashboardTasksOrderIdRoute: typeof DashboardTasksOrderIdRoute
+  DashboardTasksIndexRoute: typeof DashboardTasksIndexRoute
+}
+
+const DashboardTasksRouteChildren: DashboardTasksRouteChildren = {
+  DashboardTasksOrderIdRoute: DashboardTasksOrderIdRoute,
+  DashboardTasksIndexRoute: DashboardTasksIndexRoute,
+}
+
+const DashboardTasksRouteWithChildren = DashboardTasksRoute._addFileChildren(
+  DashboardTasksRouteChildren,
+)
+
 interface DashboardRouteChildren {
-  DashboardTasksRoute: typeof DashboardTasksRoute
+  DashboardTasksRoute: typeof DashboardTasksRouteWithChildren
   DashboardUsersRoute: typeof DashboardUsersRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardTasksRoute: DashboardTasksRoute,
+  DashboardTasksRoute: DashboardTasksRouteWithChildren,
   DashboardUsersRoute: DashboardUsersRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
