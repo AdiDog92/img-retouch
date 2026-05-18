@@ -25,7 +25,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
 			await login({ username, password });
 			toast.success('Вы успешно авторизовались');
 
-			void navigate({ to: '/dashboard' });
+			void navigate({ to: '/dashboard/tasks' });
 		} catch {
 			toast.error('Неверный логин или пароль');
 		} finally {
