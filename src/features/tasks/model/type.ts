@@ -6,9 +6,22 @@ export interface Order {
 	designerId: number;
 	createDate: Date;
 	readyDate: Date | null;
-	filePaths: string[];
-	readyFilePath: string[];
+	filePaths: OrderFilePath[];
+	readyFilePath: OrderFilePath[];
 	status: OrderStatus;
+}
+
+export interface OrderFilePath {
+	id: string;
+	storagePath: string;
+	originalFileName: string;
+	fileType: OrderFileType;
+	createdAt: Date;
+}
+
+export enum OrderFileType {
+	SOURCE = 'SOURCE',
+	READY = 'READY',
 }
 
 export type CreateOrderPayload = {
