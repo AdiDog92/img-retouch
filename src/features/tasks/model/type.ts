@@ -7,7 +7,7 @@ export interface Order {
 	createDate: Date;
 	readyDate: Date | null;
 	filePaths: string[];
-	readyFilePath: string[] | null;
+	readyFilePath: string[];
 	status: OrderStatus;
 }
 
