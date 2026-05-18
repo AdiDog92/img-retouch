@@ -7,9 +7,8 @@ import { useGetUsers } from '@/features/users/model/mutation/use-get-users';
 import { useDeleteOrder } from '../model/mutation/use-delete-order';
 import { Button } from '@/shared/ui/shadcn/button';
 import { TrashIcon } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
 import { toast } from 'sonner';
-import { OrderDetailDrawer } from './order-detail-drawer';
-import { useState } from 'react';
 
 const columnHelper = createColumnHelper<Order>();
 
@@ -57,20 +56,13 @@ export const columns = [
 	columnHelper.accessor('orderNumber', {
 		header: '№ заказа',
 		cell: (info) => {
-			const [isOpen, setIsOpen] = useState(false);
 			const orderId = info.row.original.id;
-
-			const handleOpenChange = (open: boolean) => {
-				setIsOpen(open);
-			};
+			const orderNumber = info.getValue();
 
 			return (
-				<OrderDetailDrawer
-					orderId={orderId}
-					orderNumber={String(info.getValue())}
-					isOpen={isOpen}
-					handleOpenChange={handleOpenChange}
-				/>
+				<Link to={`/dashboard/tasks/$orderId`} params={{ orderId }}>
+					{orderNumber}
+				</Link>
 			);
 		},
 	}),
