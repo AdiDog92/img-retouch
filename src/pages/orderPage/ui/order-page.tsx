@@ -8,7 +8,7 @@ import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Skeleton } from '@/shared/ui/shadcn/skeleton';
 import { useNavigate, useParams } from '@tanstack/react-router';
-import { ArrowLeftIcon, ChevronDownIcon } from 'lucide-react';
+import { ArrowLeftIcon, ChevronDownIcon, RefreshCcwIcon } from 'lucide-react';
 import { useGetUsers } from '@/features/users/model/mutation/use-get-users';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/shadcn/select';
 import { useEffect, useState, type FormEvent } from 'react';
@@ -77,17 +77,27 @@ export const OrderPage = () => {
 	const [status, setStatus] = useState<OrderStatus | null>(null);
 	const [readyDate, setReadyDate] = useState<Date | null>(null);
 
+	const handleUpdateOrder = async () => {
+		try {
+			await updateOrder({
+				orderId,
+				description: order?.description ?? order?.description,
+				designerId: designerId ?? order?.designerId,
+				readyDate: readyDate ?? order?.readyDate,
+				status: status ?? order?.status,
+			});
+		} catch (err) {
+			toast.error(err instanceof Error ? err.message : 'Не удалось внести изменения');
+		}
+	};
+
 	useEffect(() => {
 		if (!order) return;
 		const match = users.find((u) => u.id === order.designerId);
 		setDesignerId(match?.id ?? order.designerId);
 		setReadyDate(order.readyDate ?? null);
-	}, [order, users]);
-
-	useEffect(() => {
-		if (!order) return;
 		setStatus(normalizeOrderStatus(order.status));
-	}, [order]);
+	}, [order, users]);
 
 	const handleDownloadImages = async () => {
 		if (!order?.filePaths.length) return;
@@ -205,6 +215,9 @@ export const OrderPage = () => {
 									</PopoverContent>
 								</Popover>
 							</p>
+							<Button size="lg" onClick={() => void handleUpdateOrder()}>
+								Внести изменения
+							</Button>
 						</div>
 						<div className="w-2/3 flex flex-col gap-[16px]">
 							<div>
