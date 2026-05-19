@@ -28,7 +28,7 @@ export type CreateOrderPayload = {
 	clientNumber: number;
 	orderNumber: number;
 	description: string;
-	designerId: string;
+	designerId: number;
 	file: File;
 };
 
