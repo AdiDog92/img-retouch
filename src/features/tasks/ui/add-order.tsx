@@ -135,11 +135,7 @@ export const AddOrder = ({ className }: { className?: string }) => {
 							</Field>
 							<Field>
 								<FieldLabel>Выберите файл</FieldLabel>
-								<Input
-									key={fileInputKey}
-									type="file"
-									onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-								/>
+								<Input key={fileInputKey} type="file" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
 								{file ? <p className="mt-1 text-sm text-muted-foreground">{file.name}</p> : null}
 							</Field>
 							<DialogFooter>
