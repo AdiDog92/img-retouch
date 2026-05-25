@@ -12,7 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/shared/ui/shadcn/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/shared/ui/shadcn/sidebar';
-import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon } from 'lucide-react';
+import { ChevronsUpDownIcon, LogOutIcon } from 'lucide-react';
 
 type NavUserType = {
 	user: AuthUser | null;

@@ -3,7 +3,6 @@
 import * as React from 'react';
 
 import { NavMain } from '@/widgets/app-sidebar/ui/nav-main';
-import { NavProjects } from '@/widgets/app-sidebar/ui/nav-projects';
 import { NavUser } from '@/widgets/app-sidebar/ui/nav-user';
 import {
 	Sidebar,
@@ -14,19 +13,9 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/shared/ui/shadcn/sidebar';
-import {
-	TerminalSquareIcon,
-	BotIcon,
-	BookOpenIcon,
-	Settings2Icon,
-	LifeBuoyIcon,
-	SendIcon,
-	FrameIcon,
-	PieChartIcon,
-	MapIcon,
-	TerminalIcon,
-} from 'lucide-react';
+import { TerminalSquareIcon, TerminalIcon } from 'lucide-react';
 import { useAuth } from '@/app/providers/auth-provider/use-auth';
+import { usePermissions } from '@/features/auth/model/use-permissions';
 
 const data = {
 	user: {
@@ -55,104 +44,20 @@ const data = {
 				},
 			],
 		},
-		// {
-		// 	title: 'Models',
-		// 	url: '#',
-		// 	icon: <BotIcon />,
-		// 	items: [
-		// 		{
-		// 			title: 'Genesis',
-		// 			url: '#',
-		// 		},
-		// 		{
-		// 			title: 'Explorer',
-		// 			url: '#',
-		// 		},
-		// 		{
-		// 			title: 'Quantum',
-		// 			url: '#',
-		// 		},
-		// 	],
-		// },
-		// {
-		// 	title: 'Documentation',
-		// 	url: '#',
-		// 	icon: <BookOpenIcon />,
-		// 	items: [
-		// 		{
-		// 			title: 'Introduction',
-		// 			url: '#',
-		// 		},
-		// 		{
-		// 			title: 'Get Started',
-		// 			url: '#',
-		// 		},
-		// 		{
-		// 			title: 'Tutorials',
-		// 			url: '#',
-		// 		},
-		// 		{
-		// 			title: 'Changelog',
-		// 			url: '#',
-		// 		},
-		// 	],
-		// },
-		// {
-		// 	title: 'Settings',
-		// 	url: '#',
-		// 	icon: <Settings2Icon />,
-		// 	items: [
-		// 		{
-		// 			title: 'General',
-		// 			url: '#',
-		// 		},
-		// 		{
-		// 			title: 'Team',
-		// 			url: '#',
-		// 		},
-		// 		{
-		// 			title: 'Billing',
-		// 			url: '#',
-		// 		},
-		// 		{
-		// 			title: 'Limits',
-		// 			url: '#',
-		// 		},
-		// 	],
-		// },
 	],
-	// navSecondary: [
-	// 	{
-	// 		title: 'Support',
-	// 		url: '#',
-	// 		icon: <LifeBuoyIcon />,
-	// 	},
-	// 	{
-	// 		title: 'Feedback',
-	// 		url: '#',
-	// 		icon: <SendIcon />,
-	// 	},
-	// ],
-	// projects: [
-	// 	{
-	// 		name: 'Design Engineering',
-	// 		url: '#',
-	// 		icon: <FrameIcon />,
-	// 	},
-	// 	{
-	// 		name: 'Sales & Marketing',
-	// 		url: '#',
-	// 		icon: <PieChartIcon />,
-	// 	},
-	// 	{
-	// 		name: 'Travel',
-	// 		url: '#',
-	// 		icon: <MapIcon />,
-	// 	},
-	// ],
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const { user, logout } = useAuth();
+	const { canViewUsersPage } = usePermissions();
+
+	const navMain = React.useMemo(
+		() =>
+			data.navMain.map((group) => ({
+				...group,
+				items: group.items?.filter((item) => item.url !== '/dashboard/users' || canViewUsersPage),
+			})),
+		[canViewUsersPage],
+	);
 
 	return (
 		<Sidebar variant="inset" {...props}>
@@ -171,7 +76,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				</SidebarMenu>
 			</SidebarHeader>
 			<SidebarContent>
-				<NavMain items={data.navMain} />
+				<NavMain items={navMain} />
 				{/* <NavProjects projects={data.projects} /> */}
 				{/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
 			</SidebarContent>
