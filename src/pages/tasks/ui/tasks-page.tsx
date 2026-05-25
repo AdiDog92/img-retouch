@@ -1,12 +1,15 @@
 import { TaskToolbar } from '@/features/tasks/ui/task-toolbar';
 import { DataTable } from '@/shared/ui/data-table';
 import { useGetOrders } from '@/features/tasks/model/mutation/use-get-orders';
-import { columns } from '@/features/tasks/ui/task-column';
-import { useState } from 'react';
+import { getTaskColumns } from '@/features/tasks/ui/task-column';
+import { useState, useMemo } from 'react';
 import type { OrderStatus } from '@/features/tasks/model/type';
 import { useDebounce } from '@/shared/hooks/use-debounce';
+import { usePermissions } from '@/features/auth/model/use-permissions';
 
 export const TasksPage = () => {
+	const { canDeleteOrder } = usePermissions();
+	const columns = useMemo(() => getTaskColumns({ canDeleteOrder }), [canDeleteOrder]);
 	const [orderNumber, setOrderNumber] = useState('');
 	const [dateFrom, setDateFrom] = useState<string>('');
 	const [dateTo, setDateTo] = useState<string>('');

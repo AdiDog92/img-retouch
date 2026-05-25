@@ -5,6 +5,7 @@ import { EmployeeFilter } from './employee-filter';
 import { OrderSearch } from './order-search';
 import type { OrderStatus } from '../model/type';
 import { Button } from '@/shared/ui/shadcn/button';
+import { usePermissions } from '@/features/auth/model/use-permissions';
 
 export const TaskToolbar = ({
 	orderNumber,
@@ -31,6 +32,8 @@ export const TaskToolbar = ({
 	setEmployeeId: (employeeId: string) => void;
 	handleResetFilters: () => void;
 }) => {
+	const { canCreateOrder } = usePermissions();
+
 	return (
 		<div className="flex items-center gap-2 mb-4">
 			<OrderSearch orderNumber={orderNumber} setOrderNumber={setOrderNumber} />
@@ -38,8 +41,7 @@ export const TaskToolbar = ({
 			<StatusFilter status={status} setStatus={setStatus} />
 			<EmployeeFilter employeeId={employeeId} setEmployeeId={setEmployeeId} />
 			<Button onClick={handleResetFilters}>Сбросить фильтры</Button>
-			{/* TODO: Add add order button */}
-			<AddOrder className="ml-auto" />
+			{canCreateOrder ? <AddOrder className="ml-auto" /> : null}
 		</div>
 	);
 };

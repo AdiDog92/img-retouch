@@ -6,9 +6,21 @@ import { cn } from '@/shared/lib/utils';
 import { useGetUsers } from '@/features/users/model/mutation/use-get-users';
 import { useDeleteOrder } from '../model/mutation/use-delete-order';
 import { Button } from '@/shared/ui/shadcn/button';
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/shared/ui/shadcn/dialog';
 import { TrashIcon } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
 import { toast } from 'sonner';
+import { usePermissions } from '@/features/auth/model/use-permissions';
 
 const columnHelper = createColumnHelper<Order>();
 
@@ -48,7 +60,57 @@ function resolveOrderStatus(raw: unknown): OrderStatus | undefined {
 	return apiCodeToOrderStatus[s] ?? apiCodeToOrderStatus[upper] ?? legacyLabelToOrderStatus[s];
 }
 
-export const columns = [
+const DeleteOrderButton = ({ orderId, orderNumber }: { orderId: string; orderNumber: number }) => {
+	const { canDeleteOrder } = usePermissions();
+	const { mutate: deleteOrder, isPending } = useDeleteOrder();
+	const [isOpen, setIsOpen] = useState(false);
+
+	if (!canDeleteOrder) {
+		return null;
+	}
+
+	const handleDeleteOrder = () => {
+		deleteOrder(orderId, {
+			onSuccess: () => {
+				toast.success('Заказ удален');
+				setIsOpen(false);
+			},
+			onError: (error) => {
+				toast.error(error.message);
+			},
+		});
+	};
+
+	return (
+		<Dialog open={isOpen} onOpenChange={setIsOpen}>
+			<DialogTrigger>
+				<Button variant="destructive" size="icon">
+					<TrashIcon className="size-4" />
+				</Button>
+			</DialogTrigger>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>Удалить заказ?</DialogTitle>
+					<DialogDescription>
+						Заказ №{orderNumber} будет удалён без возможности восстановления.
+					</DialogDescription>
+				</DialogHeader>
+				<DialogFooter>
+					<DialogClose>
+						<Button variant="outline" type="button">
+							Отмена
+						</Button>
+					</DialogClose>
+					<Button variant="destructive" onClick={handleDeleteOrder} disabled={isPending}>
+						{isPending ? 'Удаление…' : 'Удалить'}
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
+	);
+};
+
+const baseColumns = [
 	columnHelper.accessor('createDate', {
 		header: 'Дата создания',
 		cell: (info) => formatDate(info.getValue()),
@@ -103,28 +165,13 @@ export const columns = [
 			);
 		},
 	}),
-	columnHelper.accessor('id', {
-		header: 'Действия',
-		cell: (info) => {
-			const { mutate: deleteOrder, isPending } = useDeleteOrder();
-			const orderId = info.getValue();
-
-			const handleDeleteOrder = () => {
-				deleteOrder(orderId, {
-					onSuccess: () => {
-						toast.success('Заказ удален');
-					},
-					onError: (error) => {
-						toast.error(error.message);
-					},
-				});
-			};
-
-			return (
-				<Button variant="destructive" size="icon" onClick={() => handleDeleteOrder()} disabled={isPending}>
-					<TrashIcon className="size-4" />
-				</Button>
-			);
-		},
-	}),
 ];
+
+const actionsColumn = columnHelper.display({
+	header: 'Действия',
+	cell: (info) => <DeleteOrderButton orderId={info.row.original.id} orderNumber={info.row.original.orderNumber} />,
+});
+
+export function getTaskColumns(options: { canDeleteOrder: boolean }) {
+	return options.canDeleteOrder ? [...baseColumns, actionsColumn] : baseColumns;
+}

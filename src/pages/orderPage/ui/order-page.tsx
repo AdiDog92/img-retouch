@@ -13,6 +13,7 @@ import { useGetUsers } from '@/features/users/model/mutation/use-get-users';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/shadcn/select';
 import { useEffect, useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
+import { usePermissions } from '@/features/auth/model/use-permissions';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 import { Calendar } from '@/shared/ui/shadcn/calendar';
 
@@ -72,6 +73,7 @@ export const OrderPage = () => {
 
 	const { data: order, isLoading, error } = useGetOrderById(orderId);
 	const { mutateAsync: updateOrder, isPending: isUploadingReadyFile } = useUpdateOrder();
+	const { canChangeOrderDesigner } = usePermissions();
 	const { data: users = [] } = useGetUsers('');
 	const [designerId, setDesignerId] = useState<number | null>(null);
 	const [status, setStatus] = useState<OrderStatus | null>(null);
@@ -82,7 +84,7 @@ export const OrderPage = () => {
 			await updateOrder({
 				orderId,
 				description: order?.description ?? order?.description,
-				designerId: designerId ?? order?.designerId,
+				...(canChangeOrderDesigner ? { designerId: designerId ?? order?.designerId } : {}),
 				readyDate: readyDate ?? order?.readyDate,
 				status: status ?? order?.status,
 			});
@@ -161,22 +163,28 @@ export const OrderPage = () => {
 							</p>
 							<p className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2">
 								<small className="text-muted-foreground text-sm shrink-0">Исполнитель:</small>
-								<Select value={designerId} onValueChange={(value) => setDesignerId(value ?? null)}>
-									<SelectTrigger className="w-full min-w-0 sm:max-w-xs">
-										<SelectValue placeholder="Выберите исполнителя">
-											{(id) =>
-												id != null ? (users.find((u) => u.id === id)?.fullName ?? String(id)) : 'Выберите исполнителя'
-											}
-										</SelectValue>
-									</SelectTrigger>
-									<SelectContent align="start">
-										{users.map((user) => (
-											<SelectItem key={user.id} value={user.id}>
-												{user.fullName}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
+								{canChangeOrderDesigner ? (
+									<Select value={designerId} onValueChange={(value) => setDesignerId(value ?? null)}>
+										<SelectTrigger className="w-full min-w-0 sm:max-w-xs">
+											<SelectValue placeholder="Выберите исполнителя">
+												{(id) =>
+													id != null
+														? (users.find((u) => u.id === id)?.fullName ?? String(id))
+														: 'Выберите исполнителя'
+												}
+											</SelectValue>
+										</SelectTrigger>
+										<SelectContent align="start">
+											{users.map((user) => (
+												<SelectItem key={user.id} value={user.id}>
+													{user.fullName}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								) : (
+									<span>{users.find((u) => u.id === order.designerId)?.fullName ?? '—'}</span>
+								)}
 							</p>
 							<p className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2">
 								<small className="text-muted-foreground text-sm shrink-0">Статус:</small>
