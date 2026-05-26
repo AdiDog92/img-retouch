@@ -7,7 +7,6 @@ import { resolveOrderImageSrc } from '@/shared/lib/resolve-order-image-src';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Skeleton } from '@/shared/ui/shadcn/skeleton';
-import { useNavigate, useParams } from '@tanstack/react-router';
 import { ChevronDownIcon } from 'lucide-react';
 import { useGetUsers } from '@/features/users/model/mutation/use-get-users';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/shadcn/select';
@@ -66,7 +65,6 @@ function OrderPageSkeleton() {
 }
 
 export const OrderPage = () => {
-	const navigate = useNavigate();
 	const { orderId } = useParams({ from: '/dashboard/tasks/$orderId' });
 	const [readyFile, setReadyFile] = useState<File | null>(null);
 	const [readyFileInputKey, setReadyFileInputKey] = useState<number>(0);

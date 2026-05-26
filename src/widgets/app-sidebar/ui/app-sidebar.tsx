@@ -13,7 +13,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/shared/ui/shadcn/sidebar';
-import { TerminalSquareIcon, TerminalIcon } from 'lucide-react';
+import { TerminalSquareIcon, TerminalIcon, UserIcon } from 'lucide-react';
 import { useAuth } from '@/app/providers/auth-provider/use-auth';
 import { usePermissions } from '@/features/auth/model/use-permissions';
 
