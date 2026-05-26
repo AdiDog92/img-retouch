@@ -8,5 +8,5 @@ export const updateUser = async (id: string, user: User): Promise<User> => {
 		throw new Error('Необходимо авторизоваться');
 	}
 
-	const data = res.data as User;
+	return res.data as User;
 };
