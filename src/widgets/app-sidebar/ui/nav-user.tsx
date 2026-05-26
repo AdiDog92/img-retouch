@@ -12,7 +12,8 @@ import {
 	DropdownMenuTrigger,
 } from '@/shared/ui/shadcn/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/shared/ui/shadcn/sidebar';
-import { ChevronsUpDownIcon, LogOutIcon } from 'lucide-react';
+import { useRouter } from '@tanstack/react-router';
+import { ChevronsUpDownIcon, LogOutIcon, UserIcon } from 'lucide-react';
 
 type NavUserType = {
 	user: AuthUser | null;
@@ -21,6 +22,9 @@ type NavUserType = {
 
 export function NavUser({ user, logout }: NavUserType) {
 	const { isMobile } = useSidebar();
+
+	const router = useRouter();
+
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
@@ -56,6 +60,14 @@ export function NavUser({ user, logout }: NavUserType) {
 								</div>
 							</DropdownMenuLabel>
 						</DropdownMenuGroup>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem
+							className="cursor-pointer mb-4"
+							onClick={() => router.navigate({ to: '/dashboard/profile' })}
+						>
+							<UserIcon />
+							Профиль
+						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={logout}>
 							<LogOutIcon />
