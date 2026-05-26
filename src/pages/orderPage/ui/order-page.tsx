@@ -8,7 +8,7 @@ import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Skeleton } from '@/shared/ui/shadcn/skeleton';
 import { useNavigate, useParams } from '@tanstack/react-router';
-import { ArrowLeftIcon, ChevronDownIcon, RefreshCcwIcon } from 'lucide-react';
+import { ChevronDownIcon } from 'lucide-react';
 import { useGetUsers } from '@/features/users/model/mutation/use-get-users';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/shadcn/select';
 import { useEffect, useState, type FormEvent } from 'react';
@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { usePermissions } from '@/features/auth/model/use-permissions';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 import { Calendar } from '@/shared/ui/shadcn/calendar';
+import { BackButton } from '@/shared/ui/back-button';
 
 const ORDER_STATUSES = Object.values(OrderStatus) as OrderStatus[];
 
@@ -142,10 +143,7 @@ export const OrderPage = () => {
 			{order && (
 				<>
 					<div className="flex items-center gap-2 mb-4">
-						<Button className="cursor-pointer" variant="outline" onClick={() => navigate({ to: '/dashboard/tasks' })}>
-							<ArrowLeftIcon className="w-4 h-4" />
-							Назад
-						</Button>
+						<BackButton />
 					</div>
 					<div className="flex justify-between gap-2">
 						<div className="w-1/3 flex flex-col gap-2">
