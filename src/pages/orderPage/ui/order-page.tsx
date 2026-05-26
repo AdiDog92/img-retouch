@@ -168,9 +168,7 @@ export const OrderPage = () => {
 										<SelectTrigger className="w-full min-w-0 sm:max-w-xs">
 											<SelectValue placeholder="Выберите исполнителя">
 												{(id) =>
-													id != null
-														? (users.find((u) => u.id === id)?.fullName ?? String(id))
-														: 'Выберите исполнителя'
+													id != null ? (users.find((u) => u.id === id)?.fullName ?? String(id)) : 'Выберите исполнителя'
 												}
 											</SelectValue>
 										</SelectTrigger>
