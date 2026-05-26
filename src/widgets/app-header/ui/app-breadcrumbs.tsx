@@ -34,6 +34,10 @@ function useBreadcrumbItems(): BreadcrumbItemConfig[] {
 		return [{ label: 'Пользователи' }];
 	}
 
+	if (routeIds.has('/dashboard/profile')) {
+		return [{ label: 'Профиль' }];
+	}
+
 	if (routeIds.has('/dashboard/')) {
 		return [{ label: 'Статистика' }];
 	}
